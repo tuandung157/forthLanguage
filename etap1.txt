@@ -121,3 +121,7 @@ Task : Напишите слово, которое для положительн
 
 : collat dup is_even if 2 / else 3 * 1 + then ;
 : test repeat dup check_one if . 1 cr else dup . cr collat 0 then until ; 
+
+
+
+//letuandung - P3200 
