@@ -6,7 +6,118 @@ task 2:
 
 task 3:
 //Напишите программу, проверяющую число на четность.
-number : check_even 2 % 0 = .cr ;
+number : is_even 2 % 0 = . cr ;
 
 task 4:
 //Напишите программу, проверяющую число на простоту.
+//for mod (a mod b)
+
+: mod
+	if 0
+	else ." fault" 1 cr
+	then
+;
+// x == 1 add 1 to stack; else add 0 to stack
+: is_one 1 = if 1 else 0 then ;	
+
+
+: is_prime
+	dup check_one ( if n==1 -> no, else solve )
+	if ." no" cr
+	else 
+ 		>r r@ 
+ 		(for (i = n-1) -> 1) 
+	 	repeat   
+			1 - dup 
+			check_one
+			r@ swap 
+
+			(if counter == 1)
+			if ." yes" cr 
+			
+			else ( if counter > 1  )
+
+				( counter x -- counter x counter % )
+				over % mod
+				
+			then 
+	 	until r> drop 
+	then
+
+task 5:
+//Напишите программу так, чтобы она выделяла с помощью allot ячейку в памяти, записывала туда результат и возвращала её адрес.
+// for check mod function 
+: mod0 % 0 = . ;
+
+//save
+: save_char 
+    1 allot // 0/1 addr
+    swap over //addr 0/1 addr
+    c! ( addr )
+;
+
+//print char
+: print_char c@ . ;
+
+//save and print
+: test 
+	mod0
+	save_char
+	dup
+	print_char . " address " . cr 
+;
+
+task 6:
+//reading
+
+task 7:
+//tom tat
+@ (addr) nhan gia tri tu bo nho
+! (val addr ) luu gia tri dia chi
+c!(char addr ) luu 1 byte dia chi
+c@(addr - char) read 1 byte , bat dau tu dia chi
+
+//add string
+: add_string ( s1 s2 s1.length -- s2 + s1)
+	0 for (used for (0 -> s1.length) stack : s1 s2)
+		2dup 
+		swap 
+		c@ 
+		c! (s1 s2)
+		2inc
+	endfor
+	swap drop (s2)
+;
+
+: concat (s1 s2 -- s3)
+	swap (add s1 to s3)
+	2dup count swap count (get length s1 s2)
+	2dup
+	1 + + ( length of s3)
+	heap-alloc (s3 = "")
+	>r ()(s3)
+	rot (s2 s1.length s2.length s1) (s3)
+	rot r@ (s2 s2.length s1 s1.length s3) (s3)
+	swap (s2 s2.length s1 s3 s1.length) (s3)
+	add_string (s2 s2.length s3+s1)(s3)
+	swap (s2 s3+s1 s2.length)
+	add_string (s3 + s1 +s2)
+	0 swap
+	c!
+	r>
+	prints
+;
+
+
+task 8:
+//var : 0
+Task : Напишите слово, которое для положительного числа построит последовательность Коллатца.
+         Последовательность Коллатца строится так:
+           • Если текущий член последовательности делится на два, то делим его пополам.
+           • Иначе умножаем его на 3 и прибавляем 1.
+         Последовательность Коллатца всегда приходит к единице, но никто не знает, почему.
+ 
+: is_even 2 % 0 = ;
+
+: collat dup is_even if 2 / else 3 * 1 + then ;
+: test repeat dup check_one if . 1 cr else dup . cr collat 0 then until ; 
